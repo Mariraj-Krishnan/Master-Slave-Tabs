@@ -31,6 +31,9 @@ window.onstorage = countRenderer;
 function closeMaster() {
   window.onbeforeunload = "";
   countRenderer();
+  if (history.length > 1) {
+    history.back();
+  }
   window.close();
   localStorage.count = Number(localStorage.count) - 1;
 }
