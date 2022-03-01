@@ -1,29 +1,40 @@
-if (!localStorage.count || Number(localStorage.count) < 0)
-  localStorage.count = "0";
-window.onload = () => {
-  if (!sessionStorage.visited) {
-    sessionStorage.visited = "true";
-    localStorage.count = Number(localStorage.count) + 1;
-    sessionStorage.count = localStorage.count;
-    countRenderer();
-  }
-};
+const title = document.querySelector(".title");
+const controls = document.querySelector(".controls");
+controls.style.display = "none";
+if (!sessionStorage.count) {
+  localStorage.count = "1";
+  sessionStorage.count = "1";
+}
+if (!localStorage.count || Number(localStorage.count) < 0) {
+  localStorage.count = "1";
+  sessionStorage.count = "1";
+}
 function countRenderer() {
-  document.querySelector("div").className = sessionStorage.count;
-  if (localStorage.count == sessionStorage.count) {
-    document.querySelector("div").textContent = "Master";
+  if (sessionStorage.count == localStorage.count) {
+    title.textContent = "Master";
+    document.title = "master";
+    controls.style.display = "block";
+  } else {
+    title.textContent = "Slave";
+    document.title = "slave";
+    controls.style.display = "none";
   }
 }
-
-window.onstorage = () => {
-  if (localStorage.count == document.querySelector("div").className) {
-    document.querySelector("div").textContent = "Master";
-  } else {
-    document.querySelector("div").textContent = "Slave";
-  }
-};
 countRenderer();
-window.onunload = (e) => {
-  e.preventDefault();
+function newMaster() {
+  localStorage.count = Number(localStorage.count) + 1;
+  countRenderer();
+  let info = window.open(location);
+  info.sessionStorage.count = localStorage.count;
+}
+window.onstorage = countRenderer;
+function closeMaster() {
+  window.onbeforeunload = "";
   localStorage.count = Number(localStorage.count) - 1;
+  countRenderer();
+  window.close();
+}
+window.onbeforeunload = () => {
+  localStorage.count = Number(localStorage.count) - 1;
+  window.close();
 };
