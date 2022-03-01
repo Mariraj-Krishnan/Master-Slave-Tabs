@@ -30,9 +30,9 @@ function newMaster() {
 window.onstorage = countRenderer;
 function closeMaster() {
   window.onbeforeunload = "";
-  localStorage.count = Number(localStorage.count) - 1;
   countRenderer();
   window.close();
+  localStorage.count = Number(localStorage.count) - 1;
 }
 window.onbeforeunload = () => {
   localStorage.count = Number(localStorage.count) - 1;
