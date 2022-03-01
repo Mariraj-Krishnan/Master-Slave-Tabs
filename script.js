@@ -3,8 +3,8 @@ const controls = document.querySelector(".controls");
 controls.style.display = "none";
 if (
   !sessionStorage.count ||
-  !localStorage.count ||
-  Number(localStorage.count) <= 0
+  Number(localStorage.count) <= 0 ||
+  !localStorage.count
 ) {
   localStorage.count = "1";
   sessionStorage.count = "1";
